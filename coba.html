@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love 💕</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe4f3 50%, #ffd4ec 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .sparkles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 20px;
+            animation: twinkle 2s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-screen {
+            text-align: center;
+            background: white;
+            padding: 50px 35px;
+            border-radius: 35px;
+            box-shadow: 0 15px 50px rgba(255, 182, 193, 0.3);
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .cute-illustration {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .welcome-screen h1 {
+            color: #ff9ec7;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .welcome-screen p {
+            color: #666;
+            font-size: 1em;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #ffb3d9 0%, #ff8dc7 100%);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1em;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 141, 199, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 141, 199, 0.4);
+        }
+
+        .card {
+            background: white;
+            border-radius: 35px;
+            padding: 35px 30px;
+            box-shadow: 0 15px 50px rgba(255, 182, 193, 0.3);
+            text-align: center;
+            display: none;
+            animation: slideUp 0.6s ease;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        .image-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .card-image {
+            width: 100%;
+            max-width: 320px;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .cute-sticker {
+            position: absolute;
+            font-size: 2.5em;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .sticker-top-right {
+            top: -15px;
+            right: -15px;
+            animation-delay: 0s;
+        }
+
+        .sticker-bottom-left {
+            bottom: -15px;
+            left: -15px;
+            animation-delay: 0.5s;
+        }
+
+        .card-title {
+            color: #ff9ec7;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .card-message {
+            color: #555;
+            font-size: 1em;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            padding: 0 10px;
+            font-weight: 300;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-nav {
+            background: linear-gradient(135deg, #ffd4ec 0%, #ffb3d9 100%);
+            color: #ff8dc7;
+            border: none;
+            padding: 11px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+        }
+
+        .btn-nav:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 141, 199, 0.3);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .finish-screen {
+            text-align: center;
+            background: white;
+            padding: 50px 35px;
+            border-radius: 35px;
+            box-shadow: 0 15px 50px rgba(255, 182, 193, 0.3);
+            display: none;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .finish-screen.active {
+            display: block;
+        }
+
+        .finish-screen h2 {
+            color: #ff9ec7;
+            font-size: 1.9em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .finish-screen p {
+            color: #666;
+            font-size: 1em;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .final-emoji {
+            font-size: 4.5em;
+            margin: 20px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .hearts-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 25px;
+            animation: floatUp 6s ease-in infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ffd4ec;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #ff8dc7;
+            width: 25px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkles" id="sparkles"></div>
+    <div class="hearts-container" id="heartsContainer"></div>
+    
+    <div class="container">
+        <div class="welcome-screen" id="welcomeScreen">
+            <div class="cute-illustration">
+                <img src="stiker47.gif" alt="Stiker" style="width: 150px; height: 150px;">
+            </div>
+            <h1>Haii Sayangkuu~ 💕</h1>
+            <p>Ada yang mau aku kasih tau nih... something special buat kamu di hari girlfriend day ini! Ready? 🥰✨</p>
+            <button class="btn-start" onclick="startCard()">Buka yuk! 💖</button>
+        </div>
+
+        <div class="card" id="cardContainer">
+            <div class="image-wrapper" id="mediaWrapper"></div>
+            <div class="cute-sticker sticker-top-right" id="stickerTop">💕</div>
+            <div class="cute-sticker sticker-bottom-left" id="stickerBottom">✨</div>
+            <h3 class="card-title" id="cardTitle"></h3>
+            <div class="card-message" id="cardMessage"></div>
+            <div class="progress-dots" id="progressDots"></div>
+            <div class="navigation">
+                <button class="btn-nav" id="btnPrev" onclick="prevCard()">← Back</button>
+                <button class="btn-nav" id="btnNext" onclick="nextCard()">Next →</button>
+            </div>
+        </div>
+
+        <div class="finish-screen" id="finishScreen">
+            <div class="final-emoji">💝</div>
+            <h2>Happy Girlfriend Day! 🌸</h2>
+            <p>Thank you for being the sweetest part of my life~ bojokuuu tuhh benerannn bikin hari-hari attaa jadi lebih colorful dan happy! Loveee youuu so muchhh, baby! 💕✨</p>
+            <button class="btn-start" onclick="restart()">Lihat lagi yuk! 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        const messages = [
+            {
+                image: "bojo.jpg",
+                title: "My Favorite Person 🌟",
+                text: "Tau ga sih? Setiap kali liat kamu, rasanya tuh kayak lagi liat sunset yang cantik banget~ Bikin hati adem dan happy! 🥰",
+                stickerTop: "🐱",
+                stickerBottom: "💖"
+            },
+            {
+                image: "bojoo.jpg",
+                title: "You & Me 💫",
+                text: "bojokuuu + attaaa = Perfect combination! Kayak strawberry sama cream, matcha sama latte, cocok bangett~hihihihi 🍓✨",
+                stickerTop: "🎀",
+                stickerBottom: "💕"
+            },
+            {
+                image: "bojooo.jpg",
+                title: "Little Things 🌈",
+                text: "attaa suka banget sama hal-hal kecil yang kamu lakuin... Smile bojokuuu, voice nyaa, outfit nyaa everything attaa cipa sangatt sukaa dan cintaa! Makes my heart flutter~ 💗",
+                stickerTop: "🦋",
+                stickerBottom: "✨"
+            },
+            {
+                image: "with.png",
+                title: "Best Feeling Ever 🌸",
+                text: "Rasanya tuhhh lucky bangettt bisa punya bojokuuu! You're literally the cutest, sweetest, and the best thing that ever happened to attaaa 🥺💕",
+                stickerTop: "🌟",
+                stickerBottom: "💖"
+            },
+            {
+                image: "withh.mp4",
+                title: "Forever & Always 💝",
+                text: "Thank you for being YOU bojokuuu sayangg! Kamu special banget buat attaa cipaa, and I hope kita bisa terus happy together~ Love you endlessly! 🌈✨",
+                stickerTop: "🎊",
+                stickerBottom: "💗"
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.innerHTML = '✨';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('sparkles').appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 2000);
+        }
+        setInterval(createSparkle, 800);
+
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            const hearts = ['💕', '💖', '💗', '💝', '💓', '🌸', '✨'];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('heartsContainer').appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createFloatingHeart, 1000);
+
+        function startCard() {
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('cardContainer').classList.add('active');
+            showCard(0);
+        }
+
+        function showCard(index) {
+            currentIndex = index;
+            const card = messages[index];
+            const mediaWrapper = document.getElementById('mediaWrapper');
+            mediaWrapper.innerHTML = '';
+
+            if (card.image.endsWith('.mp4')) {
+                const video = document.createElement('video');
+                video.src = card.image;
+                video.className = 'card-image';
+                video.controls = true;
+                video.autoplay = true;
+                video.loop = true;
+                mediaWrapper.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = card.image;
+                img.className = 'card-image';
+                img.alt = 'Our Moments';
+                mediaWrapper.appendChild(img);
+            }
+
+            document.getElementById('cardTitle').textContent = card.title;
+            document.getElementById('cardMessage').textContent = card.text;
+            document.getElementById('stickerTop').textContent = card.stickerTop;
+            document.getElementById('stickerBottom').textContent = card.stickerBottom;
+
+            updateProgressDots();
+
+            document.getElementById('btnPrev').disabled = index === 0;
+            document.getElementById('btnNext').textContent =
+                index === messages.length - 1 ? 'Finish! 💕' : 'Next →';
+        }
+
+        function updateProgressDots() {
+            const dotsContainer = document.getElementById('progressDots');
+            dotsContainer.innerHTML = '';
+            
+            for (let i = 0; i < messages.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                if (i === currentIndex) {
+                    dot.classList.add('active');
+                }
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                showCard(currentIndex - 1);
+            }
+        }
+
+        function nextCard() {
+            if (currentIndex < messages.length - 1) {
+                showCard(currentIndex + 1);
+            } else {
+                document.getElementById('cardContainer').classList.remove('active');
+                document.getElementById('finishScreen').classList.add('active');
+            }
+        }
+
+        function restart() {
+            document.getElementById('finishScreen').classList.remove('active');
+            document.getElementById('cardContainer').classList.add('active');
+            showCard(0);
+        }
+    </script>
+</body>
+</html>
